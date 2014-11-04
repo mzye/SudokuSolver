@@ -34,7 +34,8 @@ private slots:
     void on_pushButton_clicked();
     void on_actionSave_Solution_triggered();
 
-    int sudokuCheck();
+    bool sudokuCheck();
+    bool lengthCheck();
     void converttoGrid();
     void fillModel(int m);
     int solve();
@@ -51,7 +52,7 @@ private:
     QStandardItemModel *model[2];
     int Grid[9][9];
     QVector <int> checker;
-
+    bool ready;
 };
 
 #endif

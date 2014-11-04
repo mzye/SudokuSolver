@@ -18,6 +18,7 @@ SudokuSolver::SudokuSolver(QWidget *parent) :
         model[i]->setColumnCount(9);
         model[i]->setRowCount(9);
     }
+    ready = false;
 }
 
 SudokuSolver::~SudokuSolver()
@@ -27,7 +28,7 @@ SudokuSolver::~SudokuSolver()
 
 /* Load the csv file and dsiplay the Sudoku puzzle */
 void SudokuSolver::on_action_Open_triggered()
-{
+{   
     ui->tableView->setModel(model[0]);
     ui->tableView->verticalHeader()->hide();
     ui->tableView->horizontalHeader()->hide();
@@ -43,20 +44,30 @@ void SudokuSolver::on_action_Open_triggered()
     {
         QString data = file.readAll();
         data.replace( QRegExp("[\r\n]+"), "," ); //remove all ocurrences of CR (Carriage Return)
+        csv.clear();
         csv = data.split(",");
     }
     file.close();
 
-    converttoGrid();
-    if (!sudokuCheck())
-    {
-    fillModel(0);
+    if (lengthCheck()){
+        converttoGrid();
+
+        if (sudokuCheck())
+        {
+            fillModel(0);
+            ui->tableView_2->hide();
+            ready = true;
+        }
     }
 }
 
 /* Click the 'Solve puzzle' button to run the solving process, and the reulst will be showed in a new table. */
 void SudokuSolver::on_pushButton_clicked()
 {
+    if (!ready)
+    {
+        return;
+    }
      solve();
      ui->tableView_2->show();
      this->adjustSize();
@@ -75,6 +86,11 @@ void SudokuSolver::on_pushButton_clicked()
 /* Save the solution to a csv file. */
 void SudokuSolver :: on_actionSave_Solution_triggered()
 {
+    if (!ready)
+    {
+        return;
+    }
+
     QString filename = QFileDialog::getSaveFileName(this,
                                                     "DialogTitle", "solution.csv", "CSV files (*.csv);;Zip files (*.zip, *.7z)", 0, 0);
     QFile result(filename);
@@ -96,8 +112,8 @@ void SudokuSolver :: on_actionSave_Solution_triggered()
     }
 }
 
-/* Check if the input is a validate Sudoku puzzle. */
-int SudokuSolver::sudokuCheck()
+/* Check if the input has enough elements to be a validate Sudoku puzzle. */
+bool SudokuSolver::lengthCheck()
 {
     QMessageBox messageBox;
     messageBox.setFixedSize(400,200);
@@ -105,22 +121,29 @@ int SudokuSolver::sudokuCheck()
     if (csv.size()!=81)
     {
         messageBox.critical(0, "Error", "Bad Sudoku File -- Wrong number of entries!\n");
-        return 1;
-
+        return false;
     }
+    return true;
+}
+
+/* Check if the input is a validate Sudoku puzzle. */
+bool SudokuSolver::sudokuCheck()
+{
+    QMessageBox messageBox;
+    messageBox.setFixedSize(400,200);
 
     for(int i=0; i<9;i++)
     {
         if(!Is_Row_Valid(i))
         {
             messageBox.critical(0, "Error", "Bad Sudoku File -- Bad row!\n");
-            return 1;
+            return false;
         }
 
         if(!Is_Col_Valid(i))
         {
             messageBox.critical(0, "Error", "Bad Sudoku File -- Bad col!\n");
-            return 1;
+            return false;
         }
     }
 
@@ -131,11 +154,12 @@ int SudokuSolver::sudokuCheck()
             if (!Is_Panel_Valid(i,j))
             {
                 messageBox.critical(0,"Error", "Bad Sudoku File -- Bad panel!\n");
+                return false;
             }
         }
     }
 
-    return 0;
+    return true;
 }
 
 /* Fill the model with numbers for tableview. */
