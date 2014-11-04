@@ -17,7 +17,7 @@ Columns contain same number at least twice.
 
 Panels contain same number at least twice.
 
-**3. Click the 'Solve puzzle' button. **
+**3. Click the 'Solve puzzle' button.**
 
 ![](/images/solve puzzle.png)
 
@@ -25,7 +25,7 @@ Panels contain same number at least twice.
 
 ![](/images/Solution.png)
 
-**5. Save solution to a .csv file. **
+**5. Save solution to a .csv file.**
 
 ![](images/saveSolution.png)
 
