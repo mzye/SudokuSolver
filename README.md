@@ -17,6 +17,8 @@ Rows contain same number at least twice.
 
 Columns contain same number at least twice.
 
+![](/images/Error.png)
+
 Panels contain same number at least twice.
 
 **3. Click the 'Solve puzzle' button.**
