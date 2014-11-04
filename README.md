@@ -11,15 +11,11 @@ The code was written in **C++** using **Qt Creator** for cross-platform use. Sud
 
 ![](/images/openFile.png)
 
-**2. If the input is not a validate puzzle, error message would pop up.**
+**2. Error message pop up if the input is not a validate Sudoku puzzle.**
 
-Rows contain same number at least twice.
-
-Columns contain same number at least twice.
-
-![](/images/Error.png)
-
-Panels contain same number at least twice.
+![](/images/error1.png) 
+![](/images/error2.png) 
+![](/images/error3.png)
 
 **3. Click the 'Solve puzzle' button.**
 
