@@ -46,7 +46,6 @@ void SudokuSolver::on_action_Open_triggered()
         csv = data.split(",");
     }
     file.close();
-//    qDebug() << csv;
 
     converttoGrid();
     if (!sudokuCheck())
@@ -102,6 +101,13 @@ int SudokuSolver::sudokuCheck()
 {
     QMessageBox messageBox;
     messageBox.setFixedSize(400,200);
+
+    if (csv.size()!=81)
+    {
+        messageBox.critical(0, "Error", "Bad Sudoku File -- Wrong number of entries!\n");
+        return 1;
+
+    }
 
     for(int i=0; i<9;i++)
     {
