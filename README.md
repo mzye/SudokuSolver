@@ -9,7 +9,7 @@ The code was written in **C++** using **Qt Creator** for cross-platform use. Sud
 ----------------------
 **1. Load a .csv file.**
 
-![](/images/loadFile.png)
+![](/images/openFile.png)
 
 **2. If the input is not a validate puzzle, error message would pop up.**
 
